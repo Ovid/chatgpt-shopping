@@ -109,6 +109,7 @@ struct CustomButtonStyle: ButtonStyle {
 struct ContentView: View {
     @StateObject var viewModel = ShoppingListViewModel()
     @State private var newItemName: String = ""
+    @State private var duplicateItemName: String = ""
     @State private var selectedSort: SortAction = .frequency
     @State private var showingDuplicateItemAlert = false  // Ensure this is declared within ContentView
 
@@ -120,7 +121,12 @@ struct ContentView: View {
                     if !newItemName.isEmpty {
                         let newItem = ShoppingItem(name: newItemName, isChecked: false, frequency: 1)
                         if !viewModel.addItem(newItem) {
+                            duplicateItemName = newItem.name
                             showingDuplicateItemAlert = true
+                        }
+                        else {
+                            duplicateItemName = ""
+                            viewModel.applyLastSortAction()
                         }
                         newItemName = ""
                     }
@@ -130,7 +136,7 @@ struct ContentView: View {
                 }
                 .padding()
                 .alert(isPresented: $showingDuplicateItemAlert) {
-                    Alert(title: Text("Item already exists"), message: Text("This item is already in your list."), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Item already exists"), message: Text("'\(duplicateItemName)' is already in your list."), dismissButton: .default(Text("OK")))
                 }
                 
                 List {
@@ -138,6 +144,8 @@ struct ContentView: View {
                         HStack {
                             Toggle(isOn: $item.isChecked) {
                                 Text(item.name)
+                                    .fontWeight(item.name == duplicateItemName ? .bold : .regular)
+                                    .background(item.name == duplicateItemName ? Color.yellow : Color.clear)
                             }
                             .onChange(of: item.isChecked) {
                                 if item.isChecked {
