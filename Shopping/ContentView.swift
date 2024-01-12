@@ -15,7 +15,7 @@ struct ShoppingItem: Identifiable, Codable {
 }
 
 enum SortAction {
-    case alpha, frequency, none
+    case alpha, frequency
 }
 
 class ShoppingListViewModel: ObservableObject {
@@ -25,7 +25,7 @@ class ShoppingListViewModel: ObservableObject {
         }
     }
     
-    private var lastSortAction: SortAction = .none
+    private var lastSortAction: SortAction = .frequency
 
     init() {
         loadItems()
@@ -88,8 +88,6 @@ class ShoppingListViewModel: ObservableObject {
             sortAlpha()
         case .frequency:
             sortFrequency()
-        case .none:
-            break
         }
     }
 }
@@ -111,7 +109,7 @@ struct CustomButtonStyle: ButtonStyle {
 struct ContentView: View {
     @StateObject var viewModel = ShoppingListViewModel()
     @State private var newItemName: String = ""
-    @State private var selectedSort: SortAction = .none
+    @State private var selectedSort: SortAction = .frequency
     @State private var showingDuplicateItemAlert = false  // Ensure this is declared within ContentView
 
 
