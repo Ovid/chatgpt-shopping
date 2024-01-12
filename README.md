@@ -32,4 +32,7 @@ found, and add a few new features I discovered I wanted.
 While I've done some Android development with Kotlin, I have never done iOS
 development, nor do I know the Swift programming language.
 
+Note that the app is not perfect, it has an intermittent sorting bug, and I
+wrote no tests. However, it works well enough for me.
+
 This project is available under the MIT license.
