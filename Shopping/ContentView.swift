@@ -159,24 +159,34 @@ struct ContentView: View {
                 }
 
                 HStack {
-                    Button("Alpha") {
+                    Button("A to Z") {
                         viewModel.sortAlpha()
                         selectedSort = .alpha
+                        generateHapticFeedback()
                     }
                     .buttonStyle(CustomButtonStyle(isSelected: selectedSort == .alpha))
+                    .frame(width: 150) // Set a specific width for the button
 
-                    Button("Frequency") {
+                    Button("Popular") {
                         viewModel.sortFrequency()
                         selectedSort = .frequency
+                        generateHapticFeedback()
                     }
                     .buttonStyle(CustomButtonStyle(isSelected: selectedSort == .frequency))
+                    .frame(width: 150) // Set a specific width for the button
                 }
-                .frame(maxWidth: .infinity)
+                .padding() // Add padding around HStack if needed
+
             }
             .navigationTitle("Ovid's Shopping")
         }
     }
 
+    private func generateHapticFeedback() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
     private func addItem() {
         withAnimation {
             viewModel.addItem(ShoppingItem(name: newItemName, isChecked: false, frequency: 1))
