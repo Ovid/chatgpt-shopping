@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
-import Foundation
 
 struct ShoppingItem: Identifiable, Codable {
     var id = UUID()
@@ -15,8 +13,6 @@ struct ShoppingItem: Identifiable, Codable {
     var isChecked: Bool
     var frequency: Int
 }
-
-import Foundation
 
 enum SortAction {
     case alpha, frequency, none
