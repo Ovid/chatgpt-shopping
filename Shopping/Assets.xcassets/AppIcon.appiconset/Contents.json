@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "ovid1024x1024.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -11,21 +12,25 @@
       "size" : "16x16"
     },
     {
+      "filename" : "ovid32x32 1.jpeg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "ovid32x32.jpeg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "ovid64x64.jpeg",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
+      "filename" : "ovid128x128.jpeg",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
