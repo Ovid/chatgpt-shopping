@@ -127,7 +127,7 @@ struct ContentView: View {
                             fadeOutBackground = true
 
                             // Start a timer to reset the fade-out effect after 10 seconds
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                                 fadeOutBackground = false
                                 duplicateItemName = ""
                             }
@@ -188,7 +188,7 @@ struct ContentView: View {
                 .padding() // Add padding around HStack if needed
 
             }
-            .navigationTitle("Ovid's Shopping")
+            .navigationTitle("Ovid‘s Shopping")
         }
     }
 
