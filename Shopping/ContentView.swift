@@ -112,6 +112,7 @@ struct ContentView: View {
     @State private var duplicateItemName: String = ""
     @State private var selectedSort: SortAction = .frequency
     @State private var showingDuplicateItemAlert = false  // Ensure this is declared within ContentView
+    @State private var fadeOutBackground = false
 
 
     var body: some View {
@@ -123,6 +124,13 @@ struct ContentView: View {
                         if !viewModel.addItem(newItem) {
                             duplicateItemName = newItem.name
                             showingDuplicateItemAlert = true
+                            fadeOutBackground = true
+
+                            // Start a timer to reset the fade-out effect after 10 seconds
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                                fadeOutBackground = false
+                                duplicateItemName = ""
+                            }
                         }
                         else {
                             duplicateItemName = ""
@@ -145,7 +153,6 @@ struct ContentView: View {
                             Toggle(isOn: $item.isChecked) {
                                 Text(item.name)
                                     .fontWeight(item.name == duplicateItemName ? .bold : .regular)
-                                    .background(item.name == duplicateItemName ? Color.yellow : Color.clear)
                             }
                             .onChange(of: item.isChecked) {
                                 if item.isChecked {
@@ -154,6 +161,9 @@ struct ContentView: View {
                                 viewModel.applyLastSortAction()
                             }
                         }
+                        .background(item.name == duplicateItemName ? (fadeOutBackground ? Color.yellow.opacity(0.5) : Color.yellow) : Color.clear)
+                        .cornerRadius(5) // Optional: for rounded corners
+                        .padding(.vertical, 4) // Optional: for better spacing
                     }
                     .onDelete(perform: viewModel.deleteItem)
                 }
