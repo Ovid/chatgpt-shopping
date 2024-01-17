@@ -33,7 +33,8 @@ found, and add a few new features I discovered I wanted.
 While I've done some Android development with Kotlin, I have never done iOS
 development, nor do I know the Swift programming language.
 
-Note that the app is not perfect, it has an intermittent sorting bug, and I
-wrote no tests. However, it works well enough for me.
+I am continuing to add new features to the appliction, small adjustments, one at
+a time, while I learn more about what I want and what I can do. You can [follow
+along with my original session building the application](https://docs.google.com/document/d/1gDMIBPKL2eb4ublOI0cgNeF2AqciNtF64mYpAqiUUOE/edit?usp=sharing).
 
 This project is available under the MIT license.
