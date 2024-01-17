@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
-import Foundation
 
 struct ShoppingItem: Identifiable, Codable {
     var id = UUID()
@@ -16,10 +14,8 @@ struct ShoppingItem: Identifiable, Codable {
     var frequency: Int
 }
 
-import Foundation
-
 enum SortAction {
-    case alpha, frequency, none
+    case alpha, frequency
 }
 
 class ShoppingListViewModel: ObservableObject {
@@ -29,7 +25,7 @@ class ShoppingListViewModel: ObservableObject {
         }
     }
     
-    private var lastSortAction: SortAction = .none
+    private var lastSortAction: SortAction = .frequency
 
     init() {
         loadItems()
@@ -92,8 +88,6 @@ class ShoppingListViewModel: ObservableObject {
             sortAlpha()
         case .frequency:
             sortFrequency()
-        case .none:
-            break
         }
     }
 }
@@ -115,8 +109,10 @@ struct CustomButtonStyle: ButtonStyle {
 struct ContentView: View {
     @StateObject var viewModel = ShoppingListViewModel()
     @State private var newItemName: String = ""
-    @State private var selectedSort: SortAction = .none
+    @State private var duplicateItemName: String = ""
+    @State private var selectedSort: SortAction = .frequency
     @State private var showingDuplicateItemAlert = false  // Ensure this is declared within ContentView
+    @State private var fadeOutBackground = false
 
 
     var body: some View {
@@ -126,17 +122,31 @@ struct ContentView: View {
                     if !newItemName.isEmpty {
                         let newItem = ShoppingItem(name: newItemName, isChecked: false, frequency: 1)
                         if !viewModel.addItem(newItem) {
+                            duplicateItemName = newItem.name
                             showingDuplicateItemAlert = true
+                            fadeOutBackground = true
+
+                            // Start a timer to reset the fade-out effect after 10 seconds
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                fadeOutBackground = false
+                                duplicateItemName = ""
+                            }
+                        }
+                        else {
+                            duplicateItemName = ""
+                            viewModel.applyLastSortAction()
                         }
                         newItemName = ""
                     }
                 })
-                .onTapGesture {
+                .onSubmit {
+                    newItemName = ""
+                }.onTapGesture {
                     newItemName = ""
                 }
                 .padding()
                 .alert(isPresented: $showingDuplicateItemAlert) {
-                    Alert(title: Text("Item already exists"), message: Text("This item is already in your list."), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Item already exists"), message: Text("'\(duplicateItemName)' is already in your list."), dismissButton: .default(Text("OK")))
                 }
                 
                 List {
@@ -144,6 +154,7 @@ struct ContentView: View {
                         HStack {
                             Toggle(isOn: $item.isChecked) {
                                 Text(item.name)
+                                    .fontWeight(item.name == duplicateItemName ? .bold : .regular)
                             }
                             .onChange(of: item.isChecked) {
                                 if item.isChecked {
@@ -152,34 +163,40 @@ struct ContentView: View {
                                 viewModel.applyLastSortAction()
                             }
                         }
+                        .background(item.name == duplicateItemName ? (fadeOutBackground ? Color.yellow.opacity(0.5) : Color.yellow) : Color.clear)
+                        .cornerRadius(5) // Optional: for rounded corners
+                        .padding(.vertical, 4) // Optional: for better spacing
                     }
                     .onDelete(perform: viewModel.deleteItem)
                 }
 
                 HStack {
-                    Button("Alpha") {
+                    Button("A to Z") {
                         viewModel.sortAlpha()
                         selectedSort = .alpha
+                        generateHapticFeedback()
                     }
                     .buttonStyle(CustomButtonStyle(isSelected: selectedSort == .alpha))
+                    .frame(width: 150) // Set a specific width for the button
 
-                    Button("Frequency") {
+                    Button("Popular") {
                         viewModel.sortFrequency()
                         selectedSort = .frequency
+                        generateHapticFeedback()
                     }
                     .buttonStyle(CustomButtonStyle(isSelected: selectedSort == .frequency))
+                    .frame(width: 150) // Set a specific width for the button
                 }
-                .frame(maxWidth: .infinity)
+                .padding() // Add padding around HStack if needed
+
             }
-            .navigationTitle("Ovid's Shopping")
+            .navigationTitle("Ovid‘s Shopping")
         }
     }
 
-    private func addItem() {
-        withAnimation {
-            viewModel.addItem(ShoppingItem(name: newItemName, isChecked: false, frequency: 1))
-            newItemName = ""
-        }
+    private func generateHapticFeedback() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
     }
 }
 
