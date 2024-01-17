@@ -5,8 +5,7 @@ it. I add items that I want to buy to a list, I forget that I have duplicate
 items, my list is long and when I search for an item I don't see it, I have
 duplicates. I wanted a new app, so I asked ChatGPT to build one for me.
 
-![My ChatGPT Shopping App](https://github.com/Ovid/chatgpt-shopping/assets/24634/fae79989-37b9-4226-b505-e4548514b365)
-
+![My ChatGPT Shopping App](https://github.com/Ovid/chatgpt-shopping/assets/24634/d73d6f41-c12e-4a9b-a461-ec20b7d48bc6)
 
 The following was my query:
 
