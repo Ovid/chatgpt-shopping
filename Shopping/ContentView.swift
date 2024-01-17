@@ -139,7 +139,9 @@ struct ContentView: View {
                         newItemName = ""
                     }
                 })
-                .onTapGesture {
+                .onSubmit {
+                    newItemName = ""
+                }.onTapGesture {
                     newItemName = ""
                 }
                 .padding()
