@@ -198,13 +198,6 @@ struct ContentView: View {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
     }
-    
-    private func addItem() {
-        withAnimation {
-            viewModel.addItem(ShoppingItem(name: newItemName, isChecked: false, frequency: 1))
-            newItemName = ""
-        }
-    }
 }
 
 #Preview {
