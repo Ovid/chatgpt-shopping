@@ -135,7 +135,6 @@ struct ContentView: View {
                             duplicateItemName = ""
                             viewModel.applyLastSortAction()
                         }
-                        newItemName = ""
                     }
                 })
                 .onSubmit {
