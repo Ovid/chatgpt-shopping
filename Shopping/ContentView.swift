@@ -114,7 +114,6 @@ struct ContentView: View {
     @State private var showingDuplicateItemAlert = false  // Ensure this is declared within ContentView
     @State private var fadeOutBackground = false
 
-
     var body: some View {
         NavigationView {
             VStack {
@@ -140,8 +139,6 @@ struct ContentView: View {
                     }
                 })
                 .onSubmit {
-                    newItemName = ""
-                }.onTapGesture {
                     newItemName = ""
                 }
                 .padding()
